@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+<meta charset="UTF-8">
+<title>Guias Financeiros</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+
+<h2>MiniRich Lab</h2>
+
+<nav>
+<a href="index.html">Home</a>
+<a href="calculadoras.html">Calculadoras</a>
+<a href="assistente.html">Assistente IA</a>
+<a href="guias.html">Guias</a>
+<a href="about.html">Sobre</a>
+</nav>
+
+</header>
+
+
+<section class="categories">
+
+<h2>Guias Financeiros</h2>
+
+<div class="category-grid" id="lista-guias"></div>
+
+</section>
+
+
+<script src="guias/guias-data.js"></script>
+
+<script>
+
+const container = document.getElementById("lista-guias");
+
+for (let id in guias){
+
+const guia = guias[id];
+
+const card = document.createElement("a");
+
+card.href = "guias/guia.html?id=" + id;
+
+card.className = "card";
+
+card.innerHTML = `
+<h3>${guia.titulo}</h3>
+<p>${guia.conteudo.substring(0,80)}...</p>
+`;
+
+container.appendChild(card);
+
+}
+
+</script>
+
+</body>
+</html>

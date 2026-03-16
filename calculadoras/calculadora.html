@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+<meta charset="UTF-8">
+<title>Calculadora</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+
+<div class="calculator-container">
+
+<h1 id="titulo"></h1>
+
+<div id="inputs"></div>
+
+<button onclick="calcular()">Calcular</button>
+
+<div id="resultado" class="result"></div>
+
+</div>
+
+<script src="calculadoras-data.js"></script>
+
+<script>
+
+const params=new URLSearchParams(window.location.search);
+
+const id=params.get("id");
+
+const calc=calculadoras[id];
+
+document.getElementById("titulo").innerText=calc.titulo;
+
+const container=document.getElementById("inputs");
+
+calc.campos.forEach((campo,i)=>{
+
+container.innerHTML+=`
+<label>${campo}</label>
+<input type="number" id="c${i}">
+`;
+
+});
+
+function calcular(){
+
+let soma=0;
+
+calc.campos.forEach((c,i)=>{
+
+soma+=Number(document.getElementById("c"+i).value);
+
+});
+
+document.getElementById("resultado").innerText="Resultado: "+soma;
+
+}
+
+</script>
+
+</body>
+</html>
