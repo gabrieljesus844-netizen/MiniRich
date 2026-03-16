@@ -46,15 +46,131 @@ container.innerHTML+=`
 
 function calcular(){
 
-let soma=0;
+const params = new URLSearchParams(window.location.search)
+
+const id = params.get("id")
+
+const calc = calculadoras[id]
+
+let valores = []
 
 calc.campos.forEach((c,i)=>{
+valores.push(Number(document.getElementById("c"+i).value))
+})
 
-soma+=Number(document.getElementById("c"+i).value);
+let resultado = 0
 
-});
+switch(id){
 
-document.getElementById("resultado").innerText="Resultado: "+soma;
+case "juros-compostos":
+
+let capital = valores[0]
+let aporte = valores[1]
+let taxa = valores[2] / 100
+let anos = valores[3]
+
+let meses = anos * 12
+let taxaMensal = taxa / 12
+
+resultado = capital
+
+for(let i=0;i<meses;i++){
+resultado = (resultado + aporte) * (1 + taxaMensal)
+}
+
+break
+
+
+case "credito-habitacao":
+
+let valor = valores[0] - valores[1]
+let taxaCredito = (valores[2] / 100) / 12
+let prazo = valores[3] * 12
+
+resultado = valor * taxaCredito / (1 - Math.pow(1 + taxaCredito, -prazo))
+
+break
+
+
+case "credito-automovel":
+
+let valorCarro = valores[0] - valores[1]
+let taxaAuto = (valores[2] / 100) / 12
+let prazoAuto = valores[3] * 12
+
+resultado = valorCarro * taxaAuto / (1 - Math.pow(1 + taxaAuto, -prazoAuto))
+
+break
+
+
+case "credito-pessoal":
+
+let valorEmp = valores[0]
+let taxaEmp = (valores[1] / 100) / 12
+let prazoEmp = valores[2] * 12
+
+resultado = valorEmp * taxaEmp / (1 - Math.pow(1 + taxaEmp, -prazoEmp))
+
+break
+
+
+case "poupanca-mensal":
+
+resultado = valores[0] * valores[1] * 12
+
+break
+
+
+case "poupanca-anual":
+
+resultado = valores[0] * 12
+
+break
+
+
+case "fundo-emergencia":
+
+resultado = valores[0] * valores[1]
+
+break
+
+
+case "taxa-esforco":
+
+resultado = (valores[0] / valores[1]) * 100
+
+break
+
+
+case "rendimento-disponivel":
+
+resultado = valores[0] - valores[1]
+
+break
+
+
+case "dividendos":
+
+resultado = valores[0] * (valores[1] / 100)
+
+break
+
+
+case "tempo-duplicar-investimento":
+
+resultado = 72 / valores[0]
+
+break
+
+
+default:
+
+resultado = valores.reduce((a,b)=>a+b,0)
+
+}
+
+document.getElementById("resultado").innerText =
+"Resultado: " + resultado.toFixed(2)
 
 }
 
